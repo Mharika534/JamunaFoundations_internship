@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Jamuna Foundation — Campaign Landing (Green / Red Toggle)</title>
+  <style>
+    /* =========================
+       CSS VARIABLES (THEMES)
+       ========================= */
+    :root{
+      --bg: #f4fff4;
+      --text: #222;
+      --header-bg: #2e8b57;
+      --accent: #2e8b57;
+      --section-light: #e6ffe6;
+      --section-alt: #ffe6e6;
+      --muted: #444;
+    }
+
+    body.theme-red {
+      --bg: #fff5f5;
+      --text: #222;
+      --header-bg: #c0392b;
+      --accent: #c0392b;
+      --section-light: #ffe6e6;
+      --section-alt: #e6ffe6;
+    }
+
+    * { box-sizing: border-box; }
+    html,body { height: 100%; margin: 0; font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; color: var(--text); background: var(--bg); }
+    a { color: inherit; text-decoration: none; }
+    img, svg { max-width: 100%; display: block; }
+
+    .site { display: flex; min-height: 100vh; flex-direction: column; }
+
+    header {
+      background: linear-gradient(180deg, var(--header-bg), color-mix(in srgb, var(--header-bg) 85%, black 5%));
+      color: #fff;
+      padding: 1.25rem 1rem;
+      text-align: center;
+      position: relative;
+      overflow: visible;
+    }
+    .brand { display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap; }
+    header h1 { margin: 0; font-size: 1.4rem; letter-spacing: .6px; display:flex; gap:10px; align-items:center; justify-content:center;}
+    header p { margin: 0.25rem 0 0; opacity: 0.95; font-size: .95rem; }
+
+    nav { margin-top: .6rem; }
+    nav ul { list-style: none; padding: 0; margin:0; display:flex; gap:16px; justify-content:center; flex-wrap:wrap; }
+    nav a { color: rgba(255,255,255,0.95); font-weight:600; font-size:.92rem; }
+
+    .header-controls { position: absolute; right: 1rem; top: 1rem; display:flex; gap: .5rem; align-items:center; }
+    .toggle-label { color: rgba(255,255,255,0.95); font-size:.85rem; display:flex; gap:8px; align-items:center; }
+
+    .switch { --w:44px; --h:24px; --pad:3px; width: var(--w); height: var(--h); background: rgba(255,255,255,0.22); border-radius: calc(var(--h) / 2); position: relative; padding: var(--pad); box-sizing: border-box; display:inline-block; }
+    .switch input { position:absolute; left: -9999px; }
+    .knob { width: calc(var(--h) - (var(--pad) * 2)); height: calc(var(--h) - (var(--pad) * 2)); background: white; border-radius: 50%; transition: transform 220ms ease; transform: translateX(0); }
+    .switch input:checked + .knob { transform: translateX(calc(var(--w) - var(--h))); }
+
+    main { flex: 1; width: 100%; max-width: 960px; margin: 1.25rem auto; padding: 0 1rem; }
+    .section { background: white; border-radius: 10px; padding: 1.25rem 1rem; margin-bottom: 1rem; box-shadow: 0 6px 18px rgba(17,17,17,0.06); }
+    .section h2 { margin: 0 0 .6rem 0; font-size: 1.15rem; display:flex; gap:10px; align-items:center; justify-content:center; }
+    .lead { color: var(--muted); margin: 0 0 1rem; }
+
+    .section--accent { background: linear-gradient(180deg, color-mix(in srgb, var(--section-light) 70%, white 30%), var(--section-light)); }
+    .section--alt { background: linear-gradient(180deg, color-mix(in srgb, var(--section-alt) 70%, white 30%), var(--section-alt)); }
+
+    ul.activities { text-align: left; padding-left: 1.1rem; margin: 0; }
+    ul.activities li { margin: .5rem 0; line-height: 1.4; display:flex; gap:10px; align-items:flex-start; }
+
+    .icon { width:28px; height:28px; flex: 0 0 28px; margin-top:3px; }
+    .icon--large { width:42px; height:42px; flex:0 0 42px; }
+
+    .join-form { display:flex; gap: .6rem; flex-wrap:wrap; justify-content:center; align-items:center; margin-top: .6rem; }
+    .join-form input[type="text"], .join-form input[type="email"] { padding: .6rem .7rem; border-radius: 8px; border: 1px solid rgba(0,0,0,0.12); min-width: 220px; flex: 1 1 220px; }
+    .btn { background: var(--accent); color: #fff; border: none; padding: .6rem .9rem; border-radius: 8px; font-weight: 600; cursor: pointer; }
+    .btn:active { transform: translateY(1px); }
+
+    .contact p { margin: .25rem 0; }
+    .contact a { color: var(--accent); font-weight:600; }
+
+    footer { text-align:center; padding: .9rem 1rem; color: #fff; background: var(--header-bg); margin-top: 1rem; border-top-left-radius: 8px; border-top-right-radius: 8px;}
+
+    @media (max-width:560px){
+      header { padding: 1rem; }
+      .header-controls { position: static; justify-content:center; margin-top:.6rem; }
+      .join-form { flex-direction: column; align-items:stretch; }
+      .join-form input { width: 100%; }
+      .switch { --w:36px; --h:20px; }
+    }
+
+    .switch:focus-within { outline: 3px solid rgba(255,255,255,0.18); border-radius:999px; }
+    a:focus, button:focus, input:focus { outline: 3px solid color-mix(in srgb, var(--accent) 20%, transparent); outline-offset: 2px; }
+
+    /* subtle header decorative svg positioning */
+    .header-deco { position:absolute; left:1rem; bottom:-18px; opacity:0.12; width:120px; pointer-events:none; }
+    .header-deco.right { right:1rem; left:auto; transform: scaleX(-1); }
+  </style>
+</head>
+<body class="theme-green">
+  <div class="site">
+    <header>
+      <div class="brand" aria-hidden="false">
+        <h1>
+          <!-- Inline combined small logo with both icons -->
+          <!-- Tree icon (small inline SVG) -->
+          <svg class="icon--large" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Tree icon">
+            <title>Tree</title>
+            <path fill="white" d="M12 2C10 2 8.5 3.6 8.1 5.4 6.3 5.9 5 7.6 5 9.6 5 11.9 6.9 13.5 9 13.9V17H8c-.6 0-1 .4-1 1v1h10v-1c0-.6-.4-1-1-1h-1v-3.1c2.1-.4 4-2 4-4.3 0-2-1.3-3.7-3.1-4.2C15.5 3.6 14 2 12 2z"/>
+          </svg>
+          Jamuna Foundation
+        </h1>
+      </div>
+
+      <nav aria-label="Primary">
+        <ul>
+          <li><a href="#about">About</a></li>
+          <li><a href="#activities">Activities</a></li>
+          <li><a href="#join">Join</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+
+      <!-- header decorative small SVGs (very subtle) -->
+      <svg class="header-deco" viewBox="0 0 200 80" aria-hidden="true">
+        <defs>
+          <linearGradient id="g1" x1="0" x2="1">
+            <stop offset="0" stop-color="white" stop-opacity="0.35"/>
+            <stop offset="1" stop-color="white" stop-opacity="0.05"/>
+          </linearGradient>
+        </defs>
+        <path d="M10 60 C25 10, 60 10, 80 50 C100 90, 150 60, 190 40 L190 80 L10 80 Z" fill="url(#g1)"></path>
+      </svg>
+      <svg class="header-deco right" viewBox="0 0 200 80" aria-hidden="true">
+        <path d="M10 60 C25 10, 60 10, 80 50 C100 90, 150 60, 190 40 L190 80 L10 80 Z" fill="white" opacity="0.06"></path>
+      </svg>
+
+      <!-- header controls: theme toggle -->
+      <div class="header-controls" role="toolbar" aria-label="Theme and actions">
+        <label class="toggle-label" id="toggleLabel">
+          <span style="font-size:.92rem; font-weight:600;">Green</span>
+          <label class="switch" title="Switch theme">
+            <input id="themeSwitch" type="checkbox" aria-checked="false" aria-labelledby="toggleLabel" />
+            <span class="knob" aria-hidden="true"></span>
+          </label>
+          <span style="font-size:.92rem; font-weight:600;">Red</span>
+        </label>
+      </div>
+    </header>
+
+    <main>
+      <!-- About -->
+      <section id="about" class="section section--accent" aria-labelledby="about-heading">
+        <h2 id="about-heading">
+          <!-- small tree + drop icons inline with heading -->
+          <svg class="icon" viewBox="0 0 24 24" role="img" aria-hidden="false" focusable="false">
+            <title>Tree</title>
+            <path fill="currentColor" d="M12 2C10 2 8.5 3.6 8.1 5.4 6.3 5.9 5 7.6 5 9.6 5 11.9 6.9 13.5 9 13.9V17H8c-.6 0-1 .4-1 1v1h10v-1c0-.6-.4-1-1-1h-1v-3.1c2.1-.4 4-2 4-4.3 0-2-1.3-3.7-3.1-4.2C15.5 3.6 14 2 12 2z"/>
+          </svg>
+          About the Campaign
+        </h2>
+        <p class="lead">
+          The Jamuna Foundation runs community campaigns — including <strong>Tree Plantation</strong> drives
+          and <strong>Blood Donation</strong> events — to build healthier, resilient communities. Toggle the theme
+          above to preview both campaign styles.
+        </p>
+        <p style="margin:0;">Designed by <strong>Harika</strong> — 4th B.Tech CSE</p>
+      </section>
+
+      <!-- Activities -->
+      <section id="activities" class="section" aria-labelledby="activities-heading">
+        <h2 id="activities-heading">
+          <svg class="icon" viewBox="0 0 24 24" role="img" aria-hidden="false" focusable="false">
+            <title>Activities Icon</title>
+            <path fill="currentColor" d="M12 2C10 2 8.5 3.6 8.1 5.4 6.3 5.9 5 7.6 5 9.6 5 11.9 6.9 13.5 9 13.9V17H8c-.6 0-1 .4-1 1v1h10v-1c0-.6-.4-1-1-1h-1v-3.1c2.1-.4 4-2 4-4.3 0-2-1.3-3.7-3.1-4.2C15.5 3.6 14 2 12 2z"/>
+          </svg>
+          Our Activities
+        </h2>
+        <ul class="activities" aria-live="polite">
+          <li>
+            <!-- Tree icon for tree drive -->
+            <svg class="icon" viewBox="0 0 24 24" role="img" aria-hidden="false" focusable="false">
+              <title>Tree</title>
+              <path fill="currentColor" d="M12 2C10 2 8.5 3.6 8.1 5.4 6.3 5.9 5 7.6 5 9.6 5 11.9 6.9 13.5 9 13.9V17H8c-.6 0-1 .4-1 1v1h10v-1c0-.6-.4-1-1-1h-1v-3.1c2.1-.4 4-2 4-4.3 0-2-1.3-3.7-3.1-4.2C15.5 3.6 14 2 12 2z"/>
+            </svg>
+            🌳 Tree Plantation Drives — schools, parks, roadside greening
+          </li>
+          <li>
+            <!-- Blood drop icon -->
+            <svg class="icon" viewBox="0 0 24 24" role="img" aria-hidden="false" focusable="false">
+              <title>Blood Drop</title>
+              <path fill="currentColor" d="M12 2.69l-.9 1.05C9.93 5.4 8 7.6 8 10.25 8 13.68 10.64 16 13.5 16S19 13.68 19 10.25c0-2.65-1.93-4.85-3.1-6.51L12 2.69zM13.5 18h-3v3h3v-3z"/>
+            </svg>
+            💉 Blood Donation Camps — regular drives with partner hospitals
+          </li>
+          <li>
+            <svg class="icon" viewBox="0 0 24 24" role="img" aria-hidden="false" focusable="false">
+              <title>Recycle</title>
+              <path fill="currentColor" d="M12 2L8 6h3v6h2V6h3L12 2zm0 20l4-4h-3V12h-2v6H8l4 4z"/>
+            </svg>
+            ♻️ Recycling & Waste Segregation Workshops
+          </li>
+          <li>
+            <svg class="icon" viewBox="0 0 24 24" role="img" aria-hidden="false" focusable="false">
+              <title>Water drop</title>
+              <path fill="currentColor" d="M12 2.69l-.9 1.05C9.93 5.4 8 7.6 8 10.25 8 13.68 10.64 16 13.5 16S19 13.68 19 10.25c0-2.65-1.93-4.85-3.1-6.51L12 2.69z"/>
+            </svg>
+            💧 Water conservation & awareness sessions
+          </li>
+        </ul>
+      </section>
+
+      <!-- Join -->
+      <section id="join" class="section section--alt" aria-labelledby="join-heading">
+        <h2 id="join-heading">
+          <!-- star / register icon -->
+          <svg class="icon" viewBox="0 0 24 24" role="img" aria-hidden="false" focusable="false">
+            <title>Register</title>
+            <path fill="currentColor" d="M12 2l2.7 5.5L20 9l-4 3.9L17.7 20 12 17l-5.7 3L8 12.9 4 9l5.3-.5L12 2z"/>
+          </svg>
+          Join the Movement
+        </h2>
+        <p class="lead">Sign up to volunteer, register for camps, or request a drive at your campus or community.</p>
+
+        <form class="join-form" id="signupForm" aria-describedby="signupNote">
+          <input type="text" name="name" placeholder="Your name" aria-label="Your name" required />
+          <input type="email" name="email" placeholder="Email address" aria-label="Email address" required />
+          <button class="btn" type="submit">Join / Register</button>
+        </form>
+        <div id="signupNote" style="text-align:center; margin-top:.6rem; color:var(--muted); font-size:.95rem;">
+          We'll contact you at the provided email or phone.
+        </div>
+      </section>
+
+      <!-- Contact -->
+      <section id="contact" class="section" aria-labelledby="contact-heading">
+        <h2 id="contact-heading">
+          <svg class="icon" viewBox="0 0 24 24" role="img" aria-hidden="false" focusable="false">
+            <title>Contact</title>
+            <path fill="currentColor" d="M21 8V7l-3 2-2-1-8 6v3h11l1-5 2-2zM3 6h11v2H3z"/>
+          </svg>
+          Contact Us
+        </h2>
+        <div class="contact">
+          <p>Email: <a href="mailto:harika96188@gmail.com">harika96188@gmail.com</a></p>
+          <p>Phone: <a href="tel:9553625950">9553625950</a></p>
+          <p style="margin-top:.6rem; color:var(--muted)">© 2025 Jamuna Foundation</p>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <small>
+        <!-- small footer icons -->
+        <svg class="icon" viewBox="0 0 24 24" role="img" aria-hidden="true" style="vertical-align:middle; margin-right:6px;">
+          <path fill="white" d="M12 2C10 2 8.5 3.6 8.1 5.4 6.3 5.9 5 7.6 5 9.6 5 11.9 6.9 13.5 9 13.9V17H8c-.6 0-1 .4-1 1v1h10v-1c0-.6-.4-1-1-1h-1v-3.1c2.1-.4 4-2 4-4.3 0-2-1.3-3.7-3.1-4.2C15.5 3.6 14 2 12 2z"/>
+        </svg>
+        Jamuna Foundation — Designed by Harika, 4th B.Tech CSE • Contact: 9553625950 • harika96188@gmail.com
+      </small>
+    </footer>
+  </div>
+
+  <script>
+    (function(){
+      const switchEl = document.getElementById('themeSwitch');
+      const body = document.body;
+
+      const saved = localStorage.getItem('jamuna_theme');
+      if (saved === 'red') {
+        body.classList.add('theme-red');
+        switchEl.checked = true;
+        switchEl.setAttribute('aria-checked','true');
+      }
+
+      switchEl.addEventListener('change', () => {
+        const isRed = switchEl.checked;
+        if (isRed) {
+          body.classList.add('theme-red');
+          localStorage.setItem('jamuna_theme','red');
+          switchEl.setAttribute('aria-checked','true');
+        } else {
+          body.classList.remove('theme-red');
+          localStorage.setItem('jamuna_theme','green');
+          switchEl.setAttribute('aria-checked','false');
+        }
+      });
+
+      const form = document.getElementById('signupForm');
+      form.addEventListener('submit', function(e){
+        e.preventDefault();
+        const name = form.querySelector('input[name="name"]').value.trim() || 'Friend';
+        const note = document.getElementById('signupNote');
+        note.textContent = `Thanks ${name}! We'll reach out shortly at your email/phone.`;
+        note.style.color = 'var(--accent)';
+        form.querySelector('input[name="name"]').value = '';
+        form.querySelector('input[name="email"]').value = '';
+      });
+    })();
+  </script>
+</body>
+</html>
