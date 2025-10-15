@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Harika Maridu — Personal Portfolio</title>
+  <meta name="Harika Maridu" content="Personal portfolio focused on social impact and technical skills.">
+  <style>
+    /* Simple, self-contained responsive portfolio CSS */
+    :root{
+      --bg:#0b0b0b;
+      --panel:#0f0f10;
+      --text:#f4f4f4;
+      --muted:#bdbdbd;
+      --accent:#2dd4bf; /* teal accent */
+      --max-width:1100px;
+      --radius:12px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+      background:var(--bg);
+      color:var(--text);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.5;
+    }
+    .container{max-width:var(--max-width);margin:0 auto;padding:28px}
+    .header-inner{display:flex;align-items:center;justify-content:space-between}
+    .site-title{font-family:Georgia, 'Times New Roman', serif;margin:0;font-size:28px}
+    .tagline{margin:0;color:var(--muted);font-size:13px}
+    header.site-header{border-bottom:1px solid rgba(255,255,255,0.03);position:sticky;top:0;background:linear-gradient(rgba(11,11,11,0.95), rgba(11,11,11,0.95));backdrop-filter:blur(4px);z-index:20}
+
+    /* Navigation */
+    .nav-list{list-style:none;margin:0;padding:0;display:flex;gap:18px}
+    .nav-list a{color:var(--muted);text-decoration:none;font-size:14px}
+    .nav-list a:hover,.nav-list a:focus{color:var(--text)}
+    .menu-toggle{display:none;background:none;border:0;color:var(--text);font-size:22px}
+
+    /* Hero */
+    .hero{display:flex;align-items:center;gap:32px;padding-top:40px;padding-bottom:40px}
+    .hero-left{flex:1}
+    .hero-right{width:240px;flex-shrink:0}
+    .hero h2{font-family:Georgia, serif;font-size:48px;margin:0 0 12px}
+    .lead{color:var(--muted);font-size:18px;margin:0 0 18px}
+    .profile-photo{width:220px;height:220px;border-radius:999px;object-fit:cover;border:6px solid rgba(255,255,255,0.03);display:block}
+    .btn{display:inline-block;padding:12px 18px;border-radius:8px;text-decoration:none}
+    .btn{background:rgba(255,255,255,0.07);color:var(--text)}
+    .btn.secondary{background:var(--accent);color:#052018;margin-left:12px}
+
+    /* Sections */
+    section{padding:36px 0;border-bottom:1px solid rgba(255,255,255,0.02)}
+    h3{font-family:Georgia,serif;font-size:26px;margin:0 0 12px}
+    .about p{color:var(--muted);max-width:720px}
+
+    /* Skills */
+    .skill-list{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;padding:0;list-style:none}
+    .skill-list li{color:var(--muted)}
+
+    /* Projects grid */
+    .project-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+    .project-card{background:rgba(255,255,255,0.02);padding:14px;border-radius:10px}
+    .project-card img{width:100%;height:120px;object-fit:cover;border-radius:6px;margin-bottom:10px}
+    .project-card h4{margin:0 0 8px}
+    .project-card p{color:var(--muted);margin:0 0 10px}
+
+    /* Footer */
+    .site-footer{padding:22px 0;color:var(--muted);font-size:14px}
+
+    /* Responsive adjustments */
+    @media (max-width:900px){
+      .hero{flex-direction:column;align-items:flex-start}
+      .hero-right{width:140px}
+      .profile-photo{width:140px;height:140px}
+      .project-grid{grid-template-columns:repeat(2,1fr)}
+      .skill-list{grid-template-columns:1fr}
+      .nav-list{display:none}
+      .menu-toggle{display:inline-block}
+    }
+    @media (max-width:520px){
+      .project-grid{grid-template-columns:1fr}
+      .site-title{font-size:20px}
+      .hero h2{font-size:30px}
+    }
+
+    /* Focus states for accessibility */
+    a:focus, button:focus{outline:3px solid rgba(45,212,191,0.18);outline-offset:3px}
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="brand">
+        <h1 class="site-title">Harika Maridu</h1>
+        <p class="tagline">Empowering communities through tech</p>
+      </div>
+      <nav class="nav" aria-label="Main navigation">
+        <button id="menuToggle" aria-expanded="false" aria-controls="primaryNav" class="menu-toggle">☰</button>
+        <ul id="primaryNav" class="nav-list">
+          <li><a href="#about">About</a></li>
+          <li><a href="#skills">Skills</a></li>
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="#resume">Resume</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section id="hero" class="hero container">
+      <div class="hero-left">
+        <h2>Hi, I’m <span class="accent">Harika Maridu</span></h2>
+        <p class="lead">I build accessible web experiences and community programs that scale social impact. I’m a developer, educator and volunteer.</p>
+        <p><a class="btn" href="#projects">See projects</a> <a class="btn secondary" href="c:\Users\Harik\Downloads\resume.pdf.pdf" download>Download Resume</a></p>
+      </div>
+      <div class="hero-right">
+        <img src="c:\Users\Harik\OneDrive\Attachments\Documents\harika\passportsize photo.jpg" alt="Harika Maridu — profile photo" class="c:\Users\Harik\Downloads\Untitled design.png">
+      </div>
+    </section>
+
+    <section id="about" class="container about">
+      <h3>About</h3>
+      <p>I am a passionate developer with skills in Java, Python, HTML, and CSS. Along with my technical expertise, I possess strong communication and leadership qualities that help me work effectively in teams and community-driven initiatives. I am committed to using technology to create meaningful impact and empower others. My motivation comes from building solutions that not only solve problems but also inspire positive change in society."</p>
+    </section>
+
+    <section id="skills" class="container skills">
+      <h3>Skills</h3>
+      <ul class="skill-list">
+        <li><strong>Web Development:</strong> HTML, CSS, JavaScript</li>
+        <li><strong>Design &amp; UX:</strong> Accessible design, prototyping</li>
+        <li><strong>Tools:</strong> Git, VS Code, Figma</li>
+      </ul>
+    </section>
+
+    <section id="projects" class="container projects">
+      <h3>Projects</h3>
+      <div class="project-grid">
+        <article class="project-card">
+        </article>
+        <article class="project-card">
+          <img src="c:\Users\Harik\Downloads\BPY_PY_24E3-Age prediction through facial images using deep learning\Gender and Age Detection\Gender and Age Detection\girl2.jpg" alt="Project 2 screenshot">
+          <h4>Project Two</h4>
+          <p>A community-focused project description and its outcome.</p>
+          <p><a href="#" class="link">View project</a></p>
+      </div>
+    </section>
+
+    <section id="resume" class="container resume">
+      <h3>Resume</h3>
+      <p>Downloadable resume: <a href="c:\Users\Harik\Downloads\resume.pdf.pdf" download>Download PDF</a></p>
+    </section>
+
+    <section id="contact" class="container contact">
+      <h3>Contact</h3>
+      <p>Email: <a href="mailto:harika96188@gmail.com">harika96188@gmail.com</a></p>
+      <p>Phone: <a href="tel:+9553625950">+1 (955) 3625950</a></p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>© <span id="year"></span> Harika Maridu. All rights reserved. <a href="https://jamunafoundation.org" target="_blank" rel="noopener">Jamuna Foundation</a></p>
+    </div>
+  </footer>
+
+  <script>
+    // Small interactive bits: menu toggle and dynamic year
+    (function(){
+      var menu = document.getElementById('menuToggle');
+      var nav = document.getElementById('primaryNav');
+      if(menu){
+        menu.addEventListener('click', function(){
+          var expanded = this.getAttribute('aria-expanded') === 'true';
+          this.setAttribute('aria-expanded', String(!expanded));
+          if(nav.style.display === 'flex'){
+            nav.style.display = '';
+          } else {
+            nav.style.display = 'flex';
+            nav.style.flexDirection = 'column';
+            nav.style.gap = '12px';
+          }
+        });
+      }
+      // set current year
+      var y = new Date().getFullYear();
+      var yearEl = document.getElementById('year');
+      if(yearEl) yearEl.textContent = y;
+    })();
+  </script>
+</body>
+</html>
